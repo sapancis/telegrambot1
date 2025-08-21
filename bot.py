@@ -299,24 +299,35 @@ def main():
     """Ana fonksiyon"""
     global task_bot
     
+def main():
+    """Ana fonksiyon"""
+    global task_bot
+    
     # Çevre değişkenlerinden bilgileri al
     TELEGRAM_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
-    GOOGLE_CREDENTIALS_PATH = os.getenv('GOOGLE_CREDENTIALS_PATH')
+    GOOGLE_CREDENTIALS_PATH = os.getenv('GOOGLE_CREDENTIALS_PATH') 
     SPREADSHEET_ID = os.getenv('SPREADSHEET_ID')
     
-    # Eğer çevre değişkenleri yoksa, doğrudan değerleri kullan (geliştirme için)
+    # Debug için değerleri yazdır
+    print(f"TELEGRAM_TOKEN: {'✅ Var' if TELEGRAM_TOKEN else '❌ Yok'}")
+    print(f"GOOGLE_CREDENTIALS_PATH: {'✅ Var' if GOOGLE_CREDENTIALS_PATH else '❌ Yok'}")
+    print(f"SPREADSHEET_ID: {'✅ Var' if SPREADSHEET_ID else '❌ Yok'}")
+    
+    # Eğer hala None geliyorsa, doğrudan değerleri ata
     if not TELEGRAM_TOKEN:
+        print("⚠️ Environment variables'dan alınamadı, doğrudan değer atanıyor...")
         TELEGRAM_TOKEN = "8321992478:AAFBdiIyGflYWp3RB4G0jllxKyNZSOTHcKA"
-        GOOGLE_CREDENTIALS_PATH = r"C:\Users\alisa\Desktop\telegram\deneme.json"
+        GOOGLE_CREDENTIALS_PATH = "credentials.json"
         SPREADSHEET_ID = "1RBOzb89dlyEE0J9mFI38qFRtXOLVQeSZi6knRAWUvKw"
     
-    if not all([TELEGRAM_TOKEN, GOOGLE_CREDENTIALS_PATH, SPREADSHEET_ID]):
-        print("❌ Gerekli çevre değişkenleri ayarlanmamış!")
-        print("Gerekli değişkenler:")
-        print("- TELEGRAM_BOT_TOKEN")
-        print("- GOOGLE_CREDENTIALS_PATH")
-        print("- SPREADSHEET_ID")
-        return
+    # Bu kontrol kısmını kaldır
+    # if not all([TELEGRAM_TOKEN, GOOGLE_CREDENTIALS_PATH, SPREADSHEET_ID]):
+    #     print("❌ Gerekli çevre değişkenleri ayarlanmamış!")
+    #     print("Gerekli değişkenler:")
+    #     print("- TELEGRAM_BOT_TOKEN")
+    #     print("- GOOGLE_CREDENTIALS_PATH") 
+    #     print("- SPREADSHEET_ID")
+    #     return
     
     try:
         # TaskBot instance'ını oluştur
