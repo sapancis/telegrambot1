@@ -8,7 +8,7 @@ from telegram.ext import Application, CommandHandler, ContextTypes
 import asyncio
 from dotenv import load_dotenv
 
-# .env dosyasını yükle
+# .env dosyasını yüklef
 load_dotenv()
 from dotenv import load_dotenv
 
@@ -317,7 +317,7 @@ def main():
     if not TELEGRAM_TOKEN:
         print("⚠️ Environment variables'dan alınamadı, doğrudan değer atanıyor...")
         TELEGRAM_TOKEN = "8321992478:AAFBdiIyGflYWp3RB4G0jllxKyNZSOTHcKA"
-        GOOGLE_CREDENTIALS_PATH = "credentials.json"
+        GOOGLE_CREDENTIALS_PATH = "deneme.json"
         SPREADSHEET_ID = "1RBOzb89dlyEE0J9mFI38qFRtXOLVQeSZi6knRAWUvKw"
     
     # Bu kontrol kısmını kaldır
