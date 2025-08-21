@@ -314,7 +314,7 @@ def main():
     GOOGLE_CREDENTIALS_PATH = "credentials.json"
     SPREADSHEET_ID = "1RBOzb89dlyEE0J9mFI38qFRtXOLVQeSZi6knRAWUvKw"
     
-    print("🔧 Değerler doğrudan atandı")
+    print("🔧 Değerler doğrudan atandı (PythonAnywhere)")
     print(f"TELEGRAM_TOKEN: ✅")
     print(f"GOOGLE_CREDENTIALS_PATH: ✅") 
     print(f"SPREADSHEET_ID: ✅")
