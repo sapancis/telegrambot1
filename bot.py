@@ -1,4 +1,5 @@
 import os
+import json
 import logging
 from datetime import datetime
 import gspread
@@ -6,10 +7,6 @@ from google.oauth2.service_account import Credentials
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 import asyncio
-from dotenv import load_dotenv
-
-# .env dosyasını yüklef
-load_dotenv()
 from dotenv import load_dotenv
 
 # .env dosyasını yükle
@@ -39,8 +36,19 @@ class TaskBot:
                 'https://www.googleapis.com/auth/drive'
             ]
             
-            # Kimlik doğrulama
-            creds = Credentials.from_service_account_file(credentials_path, scopes=scope)
+            # Kimlik doğrulama - önce environment variable'dan dene
+            google_creds_json = os.getenv('GOOGLE_CREDENTIALS_JSON')
+            
+            if google_creds_json:
+                # Environment variable'dan JSON parse et
+                print("🔑 Google credentials environment variable'dan alınıyor...")
+                creds_dict = json.loads(google_creds_json)
+                creds = Credentials.from_service_account_info(creds_dict, scopes=scope)
+            else:
+                # Dosyadan oku
+                print("📁 Google credentials dosyadan alınıyor...")
+                creds = Credentials.from_service_account_file(credentials_path, scopes=scope)
+            
             self.gc = gspread.authorize(creds)
             
             # Spreadsheet'i aç
@@ -48,6 +56,8 @@ class TaskBot:
             
             # Başlıkları kontrol et ve gerekirse ekle
             self.setup_headers()
+            
+            print("✅ Google Sheets bağlantısı başarılı!")
             
         except Exception as e:
             logger.error(f"Google Sheets bağlantısı kurulurken hata: {e}")
@@ -299,35 +309,15 @@ def main():
     """Ana fonksiyon"""
     global task_bot
     
-def main():
-    """Ana fonksiyon"""
-    global task_bot
+    # Değerleri doğrudan ata
+    TELEGRAM_TOKEN = "8321992478:AAFBdiIyGflYWp3RB4G0jllxKyNZSOTHcKA"
+    GOOGLE_CREDENTIALS_PATH = "credentials.json"
+    SPREADSHEET_ID = "1RBOzb89dlyEE0J9mFI38qFRtXOLVQeSZi6knRAWUvKw"
     
-    # Çevre değişkenlerinden bilgileri al
-    TELEGRAM_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
-    GOOGLE_CREDENTIALS_PATH = os.getenv('GOOGLE_CREDENTIALS_PATH') 
-    SPREADSHEET_ID = os.getenv('SPREADSHEET_ID')
-    
-    # Debug için değerleri yazdır
-    print(f"TELEGRAM_TOKEN: {'✅ Var' if TELEGRAM_TOKEN else '❌ Yok'}")
-    print(f"GOOGLE_CREDENTIALS_PATH: {'✅ Var' if GOOGLE_CREDENTIALS_PATH else '❌ Yok'}")
-    print(f"SPREADSHEET_ID: {'✅ Var' if SPREADSHEET_ID else '❌ Yok'}")
-    
-    # Eğer hala None geliyorsa, doğrudan değerleri ata
-    if not TELEGRAM_TOKEN:
-        print("⚠️ Environment variables'dan alınamadı, doğrudan değer atanıyor...")
-        TELEGRAM_TOKEN = "8321992478:AAFBdiIyGflYWp3RB4G0jllxKyNZSOTHcKA"
-        GOOGLE_CREDENTIALS_PATH = "deneme.json"
-        SPREADSHEET_ID = "1RBOzb89dlyEE0J9mFI38qFRtXOLVQeSZi6knRAWUvKw"
-    
-    # Bu kontrol kısmını kaldır
-    # if not all([TELEGRAM_TOKEN, GOOGLE_CREDENTIALS_PATH, SPREADSHEET_ID]):
-    #     print("❌ Gerekli çevre değişkenleri ayarlanmamış!")
-    #     print("Gerekli değişkenler:")
-    #     print("- TELEGRAM_BOT_TOKEN")
-    #     print("- GOOGLE_CREDENTIALS_PATH") 
-    #     print("- SPREADSHEET_ID")
-    #     return
+    print("🔧 Değerler doğrudan atandı")
+    print(f"TELEGRAM_TOKEN: ✅")
+    print(f"GOOGLE_CREDENTIALS_PATH: ✅") 
+    print(f"SPREADSHEET_ID: ✅")
     
     try:
         # TaskBot instance'ını oluştur
